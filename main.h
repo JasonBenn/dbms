@@ -1,0 +1,4 @@
+#define MAX_COLUMNS 10
+#define MAX_RECORDS 64000
+
+typedef char Table[MAX_RECORDS][MAX_RECORD_SIZE];
