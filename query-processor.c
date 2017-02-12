@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "dbms.h"
+#include "main.h"
 
 #define MAX_RECORD_SIZE 1500
 

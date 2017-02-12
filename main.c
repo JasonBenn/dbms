@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "query-processor.c"
-#include "dbms.h"
+#include "main.h"
 
 #define MAX_INPUT 100
 
