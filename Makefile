@@ -5,4 +5,4 @@ default:
 	@./main.out $(TEST_DB)
 
 develop:
-	wach --only *.c, "clear && cc main.c -o main.out && ./main.out $TEST_DB"
+	wach --only *.c, "clear && cc main.c -o main.o && ./main.o $(TEST_DB)"

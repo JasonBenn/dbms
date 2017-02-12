@@ -1,0 +1,5 @@
+*.o
+
+# Cruft from CLion IDE.
+.idea
+cmake-build-debug
