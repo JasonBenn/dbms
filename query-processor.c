@@ -2,10 +2,8 @@
 #include <stdlib.h>
 #include "main.h"
 
-#define MAX_RECORD_SIZE 1500
-
 struct {
-  char *Table;
+  Table *table;
   char *columns[];
 } typedef SeqScanState;
 
@@ -15,11 +13,10 @@ struct {
   char *name;
 } typedef Record;
 
-SeqScanState *seqScanInit(char Table, char *columns[]) {
+SeqScanState *seqScanInit(Table *table, char *columns[]) {
   SeqScanState *i = (SeqScanState *) malloc(sizeof(SeqScanState));
-  // How do I store a pointer to this table?
   i->table = table;
-  *(i->columns) = *columns; // Sets first pointer of i->columns to first pointer of columns.
+  *(i->columns) = *columns;
   return i;
 }
 
@@ -32,9 +29,3 @@ void seqScanClose(SeqScanState *state) {
   free(state);
   return;
 }
-
-// int main(void) {
-//   char *columns[] = { "title" };
-//   SeqScanState *state = seqScanInit("ciadocs", columns);
-//   printf("OK...\n");
-// }

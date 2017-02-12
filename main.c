@@ -3,12 +3,10 @@
 #include <string.h>
 #include "query-processor.c"
 #include "main.h"
+#include "utils.c"
 
-#define MAX_INPUT 100
-
-char table[MAX_RECORDS][MAX_RECORD_SIZE];
+Table table;
 int numRows = 0;
-
 // TODO: define struct schema based on CSV header:
 // collection,content_type,document_creation_date,document_number,document_page_count,document_release_date,
 // document_type,file,more1_link,more1_title,more2_link,more2_title,more3_link,more3_title,more4_link,more4_title,more5_link,more5_title,publication_date,release_decision,sequence_number,title,url
@@ -35,7 +33,6 @@ int numRows = 0;
 // Goal: sorting/hashing on disk could happen by subbing those iterators in
 
 
-
 void loadFile(char *path) {
   printf("loading path: %s\n", path);
 
@@ -56,12 +53,6 @@ void loadFile(char *path) {
   fclose(stream);
 
   printf("loaded %i bytes into %i rows\n", bytesLoaded, numRows);
-}
-
-void chomp(char *str) {
-  int end = strlen(str) - 1;
-  if (str[end] == '\n' || str[end] == '\r')
-    str[end] = '\0';
 }
 
 void getInput(char *input) {
@@ -90,7 +81,7 @@ int main(int argc, char *argv[]) {
 
   // QUERY PROCESSOR
   char *columns[] = { "title" };
-  SeqScanState *state = seqScanInit(table, columns);
+  SeqScanState *state = seqScanInit(&table, columns);
   printf("OK...\n");
 
   // COUNT matching results
