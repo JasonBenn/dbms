@@ -1,0 +1,19 @@
+query processor
+executor
+
+select * from ciadocs where title="gap"
+
+START: select * from ciadocs where title="____"
+THEN: select ____ from ciadocs where title="____"
+
+maybe later: aggregation functions - like a count iterator.
+arg takes thing it's counting, assumes it's sorted
+
+fn(value)
+
+MAIN
+calls iterators
+that read data
+
+Goal: sorting/hashing on disk could happen by subbing those iterators in
+

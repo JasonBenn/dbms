@@ -3,39 +3,18 @@
 #include <string.h>
 #include "query-processor.c"
 #include "main.h"
+#include <stdbool.h>
 #include "utils.c"
 
 Table table;
-int numRows = 0;
 // TODO: define struct schema based on CSV header:
 // collection,content_type,document_creation_date,document_number,document_page_count,document_release_date,
 // document_type,file,more1_link,more1_title,more2_link,more2_title,more3_link,more3_title,more4_link,more4_title,more5_link,more5_title,publication_date,release_decision,sequence_number,title,url
 
-
-// query processor
-// executor
-
-
-// select * from ciadocs where title="gap"
-
-// START: select * from ciadocs where title="____"
-// THEN: select ____ from ciadocs where title="____"
-
-// maybe later: aggregation functions - like a count iterator.
-// arg takes thing it's counting, assumes it's sorted
-
-// fn(value)
-
-// MAIN
-// calls iterators
-// that read data
-
-// Goal: sorting/hashing on disk could happen by subbing those iterators in
-
-
 void loadFile(char *path) {
   printf("loading path: %s\n", path);
 
+  int numRows = 0;
   FILE *stream = fopen(path, "rb");
   char *line = NULL;
   size_t len = 0;
@@ -50,6 +29,7 @@ void loadFile(char *path) {
     numRows++;
   }
 
+  strncpy(table[i], TABLE_TERMINATOR, MAX_RECORD_SIZE);
   fclose(stream);
 
   printf("loaded %i bytes into %i rows\n", bytesLoaded, numRows);
@@ -84,16 +64,22 @@ int main(int argc, char *argv[]) {
   SeqScanState *state = seqScanInit(&table, columns);
   printf("OK...\n");
 
-  // COUNT matching results
-  // TODO: only search for `value` within field `field`
-  char *result;
-  int resultsCount = 0;
-  for (int i = 0; i < numRows; i++) {
-    result = strstr(table[i], value);
-    if (result != NULL) {
-      // printf("%s\n", result);
-      resultsCount++;
-    }
-  }
-  printf("%i/%i results\n", resultsCount, numRows);
+  printf("tt %s\n", TABLE_TERMINATOR);
+  printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+  // A couple problems here. One, the csv is UTF-8, so strcmp is returning garbage.
+  // But that should actually be all right... I'm just waiting for TABLE_TERMINATOR.
+  // I do wish that there was a cleaner way to return an EOF value. Everything
+  // returned from that func has to be the same value, though :/
+  printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+
+  // Another problem: segfault after the third seqScanNext(state). In lldb:
+  //  error: Execution was interrupted, reason: EXC_BAD_ACCESS (code=1, address=0x10b71c670).
+  //      The process has been returned to the state before expression evaluation.
+
+//  printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+//  while (strcmp(*seqScanNext(state), TABLE_TERMINATOR) != 0)
+//      printf("state %i", state->currentId);
+//
+//  printf("numRecords: %i\n", state->currentId);
+
 }
