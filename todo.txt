@@ -1,3 +1,6 @@
+Goal: A DBMS implementation optimized for databases less than half the size of your memory. Redundantly stores data in
+columns and rows so the query planner can always maximize read speed.
+
 query processor
 executor
 
