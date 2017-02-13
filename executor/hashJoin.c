@@ -6,8 +6,25 @@
 // tuple = the selected fields of a record
 // tupleFromRecord = takes record and selected fields, returns tuple
 
+// STUB DATA
+// schema: id, title
+typedef char *Table[][25];
+
+Table posts = {
+  {"1", "How do I C"},
+  {"2", "Why does clang hate me"}
+};
+
+// schema: id, postId, name
+Table authors = {
+  {"1", "1", "Bert"},
+  {"2", "1", "Ernie"},
+  {"3", "2", "Elmo"},
+  {"4", "3", "The Animal"}
+};
+
 struct {
-  char *table;
+  Table *table;
   char **hashFields;
   char **tupleFields;
 } typedef JoinTableArgs;
@@ -38,23 +55,23 @@ void hashJoinNext(void) {
     // if innerTuple?
       // return join(record, innerTuple)
 }
+
 void hashJoinClose(void) {
   // FREE hashTable
 }
 
 int main(void) {
-  // SELECT post.title
-  // FROM posts JOIN votes
-  // ON post.id = vote.postId
-  // // WHERE votes.count > 50
+  // SELECT post.title, author.name
+  // FROM posts JOIN author
+  // ON post.id = author.postId
 
   JoinTableArgs inner;
-  inner.table = "posts";
+  inner.table = &posts;
   inner.hashFields = (char *[]) {"id"};
   inner.tupleFields = (char *[]) {"title"};
 
   JoinTableArgs outer;
-  outer.table = "votes";
+  outer.table = &authors;
   outer.hashFields = (char *[]) {"postId"};
   outer.tupleFields = (char *[]) {""};
 
