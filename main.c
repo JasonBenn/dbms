@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "utils.c"
 
+// TODO: loading CSV into table should save a file. Read from that file afterwards.
 Table table;
 // TODO: define struct schema based on CSV header:
 // collection,content_type,document_creation_date,document_number,document_page_count,document_release_date,
@@ -25,11 +26,12 @@ void loadFile(char *path) {
   while ((read = getline(&line, &len, stream)) != -1) {
     bytesLoaded += (int) read;
     // TODO: rows should be instances of struct instead of string
-    strncpy(table[i++], line, MAX_RECORD_SIZE);
+    strncpy(table[(sizeof(Record) * i)], line, RECORD_SIZE);
+    i++;
     numRows++;
   }
 
-  strncpy(table[i], TABLE_TERMINATOR, MAX_RECORD_SIZE);
+  strncpy(table[i], TABLE_TERMINATOR, RECORD_SIZE);
   fclose(stream);
 
   printf("loaded %i bytes into %i rows\n", bytesLoaded, numRows);
@@ -49,9 +51,9 @@ int main(int argc, char *argv[]) {
   loadFile(argv[1]);
 
   // // Invert comments of this paragraph for user input.
-   char input[MAX_INPUT];
-   getInput(input);
-//  char input[MAX_INPUT] = "title:HAINAN";
+//   char input[MAX_INPUT];
+//   getInput(input);
+  char input[MAX_INPUT] = "title:HAINAN";
 
   // PARSE query of form field:value
   // TODO: handle bad input
@@ -64,22 +66,28 @@ int main(int argc, char *argv[]) {
   SeqScanState *state = seqScanInit(&table, columns);
   printf("OK...\n");
 
-  //  printf("tt %s\n", TABLE_TERMINATOR);
-  //  printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+    printf("tt %s\n", TABLE_TERMINATOR);
+    // printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+    // printf("cmp: %s\n", *seqScanNext(state));
+    seqScanNext(state);
   // A couple problems here. One, the csv is UTF-8, so strcmp is returning garbage.
   // But that should actually be all right... I'm just waiting for TABLE_TERMINATOR.
   // I do wish that there was a cleaner way to return an EOF value. Everything
   // returned from that func has to be the same value, though :/
-  //  printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+    // printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+    // printf("cmp: %s\n", *seqScanNext(state));
+    seqScanNext(state);
 
   // Another problem: segfault after the third seqScanNext(state). In lldb:
   //  error: Execution was interrupted, reason: EXC_BAD_ACCESS (code=1, address=0x10b71c670).
   //      The process has been returned to the state before expression evaluation.
-  //  printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+   // printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
+   // printf("cmp: %s\n", *seqScanNext(state));
+   seqScanNext(state);
 
   // This will become main.next
-  while (strcmp(*seqScanNext(state), TABLE_TERMINATOR) != 0)
-      printf("state %i", state->currentId);
+ // while (strcmp(*seqScanNext(state), TABLE_TERMINATOR) != 0)
+     // printf("state %i", state->currentId);
 
   printf("numRecords: %i\n", state->currentId);
 

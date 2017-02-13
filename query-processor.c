@@ -24,7 +24,7 @@ SeqScanState *seqScanInit(Table *table, char *columns[]) {
 Record *seqScanNext(SeqScanState *state) {
 //  printf("%i\n", state->currentId);
   //  printf("%s\n", *state->table[state->currentId]);
-  Record *record = state->table[state->currentId];
+  Record *record = &(state->table[sizeof(Record) * state->currentId]);
   if (strcmp(*record, TABLE_TERMINATOR) == 0) {
     return &TABLE_TERMINATOR;
   } else {
@@ -46,3 +46,7 @@ void seqScanClose(SeqScanState *state) {
 //extern Operator SeqScan = { &seqScanInit, &seqScanNext, &close };
 
 // Add some joins
+// Simple hash function:
+  // XOR all bytes together gives 256 buckets.
+  // To make it smaller, mod by a power of 2.
+  // For more buckets, XOR adjacent buckets
