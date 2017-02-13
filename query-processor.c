@@ -9,7 +9,7 @@ Record TABLE_TERMINATOR = "END OF TABLE";
 // Operator: SeqScan
 struct {
   Table *table;
-  int currentId;
+  int currentId; // Should be location of memory buffer.
   char *columns[];
 } typedef SeqScanState;
 
@@ -22,7 +22,7 @@ SeqScanState *seqScanInit(Table *table, char *columns[]) {
 }
 
 Record *seqScanNext(SeqScanState *state) {
-  printf("%i\n", state->currentId);
+//  printf("%i\n", state->currentId);
   //  printf("%s\n", *state->table[state->currentId]);
   Record *record = state->table[state->currentId];
   if (strcmp(*record, TABLE_TERMINATOR) == 0) {
@@ -44,3 +44,5 @@ void seqScanClose(SeqScanState *state) {
 //struct Operator { ... };
 // Then I'd be able to i.e., reuse close for a bunch of different operators.
 //extern Operator SeqScan = { &seqScanInit, &seqScanNext, &close };
+
+// Add some joins
