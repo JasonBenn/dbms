@@ -1,0 +1,1 @@
+void chomp(char *str);
