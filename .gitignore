@@ -1,8 +1,8 @@
 *.o
 
-# Debugging
+# lldb cruft
 *.dSYM*
 
-# Cruft from CLion IDE.
+# CLion IDE cruft
 .idea
 cmake-build-debug
