@@ -14,7 +14,7 @@ static char *testFoo() {
   return 0;
 }
 
-#include "commands/copy-from-csv.h"
+#include "commands/load-csv.h"
 static char *testCopyFromCsv() {
   Table *table;
   loadCsv("stub-data.csv", table);

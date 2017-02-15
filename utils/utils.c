@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <string.h>
+#include "utils/utils.h"
+
 void chomp(char *str) {
   // Remove newline or carriage return char from end of string.
   int end = strlen(str) - 1;

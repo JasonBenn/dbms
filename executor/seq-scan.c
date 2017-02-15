@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#include "executor/seq-scan.h"
 
 
 SeqScanState *seqScanInit(Table *table, int numColumns) {

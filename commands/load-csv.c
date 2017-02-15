@@ -1,7 +1,7 @@
 // Analogous to postgres/src/backend/commands/copy.c, which implements the COPY command.
 #include <stdio.h>
 #include <string.h>
-#include "commands/copy-from-csv.h"
+#include "commands/load-csv.h"
 #include "main.h"
 
 void loadCsv(char *path, Table *table) {

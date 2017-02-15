@@ -1,17 +1,16 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include "main.h"
-#include "utils/utils.c"
+#include "utils/utils.h"
 // TODO: loading from CSV every run -> loading from file in our binary format
-#include "commands/copy-from-csv.h"
+#include "commands/load-csv.h"
 
 
 Table table;
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
+    printf("Need at least one argument.\n");
     return 1;
   }
 
