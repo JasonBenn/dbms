@@ -12,30 +12,6 @@ Table table;
 // collection,content_type,document_creation_date,document_number,document_page_count,document_release_date,
 // document_type,file,more1_link,more1_title,more2_link,more2_title,more3_link,more3_title,more4_link,more4_title,more5_link,more5_title,publication_date,release_decision,sequence_number,title,url
 
-void loadFile(char *path) {
-  printf("loading path: %s\n", path);
-
-  int numRows = 0;
-  FILE *stream = fopen(path, "rb");
-  char *line = NULL;
-  size_t len = 0;
-  ssize_t read;
-
-  int bytesLoaded = 0;
-  int i = 0;
-  while ((read = getline(&line, &len, stream)) != -1) {
-    bytesLoaded += (int) read;
-    // TODO: rows should be instances of struct instead of string
-    strncpy(table[(sizeof(Record) * i)], line, RECORD_SIZE);
-    i++;
-    numRows++;
-  }
-
-  strncpy(table[i], TABLE_TERMINATOR, RECORD_SIZE);
-  fclose(stream);
-
-  printf("loaded %i bytes into %i rows\n", bytesLoaded, numRows);
-}
 
 void getInput(char *input) {
   printf("query: ");
