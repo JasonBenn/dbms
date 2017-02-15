@@ -1,26 +1,58 @@
 #include <stdio.h>
-#include "tests.h"
-#include "../utils/terminal-utils.h"
+#include <stdbool.h>
+#include "tests/tests.h"
+#include "main.h"
+#include "utils/ansi-escape-seqs.h"
 
-int tests_run = 0;
+int testsRun = 0;
 
-static char *test_foo() {
-  mu_assert("error, foo != 7", 7 == 7);
+static char *testFoo() {
+  muAssert("error, foo != 7", 7 == 7);
   return 0;
 }
 
-static char *all_tests() {
-  mu_run_test(test_foo);
+#include "commands/copy-from-csv.h"
+static char *testCopyFromCsv() {
+  loadFile("stub-data.csv");
+  muAssert("error loading CSV", true);
   return 0;
 }
+
+static char *testHashJoin() {
+  // posts schema: id, title
+  Table posts = {
+    {"1", "How do I C"},
+    {"2", "Why does clang hate me"}
+  };
+
+  // authors schema: id, postId, name
+  Table authors = {
+    {"1", "1", "Bert"},
+    {"2", "1", "Ernie"},
+    {"3", "2", "Elmo"},
+    {"4", "3", "The Animal"}
+  };
+
+  // TODO
+
+  return 0;
+}
+
+static char *allTests() {
+  muRunTest(testFoo);
+  muRunTest(testCopyFromCsv);
+  return 0;
+}
+
+
 
 int main(int argc, char **argv) {
-  char *result = all_tests();
+  char *result = allTests();
   if (result != 0) {
     printf(ANSI_RED"x"ANSI_RESET" %s\n", result);
   }
   else {
-    printf(ANSI_GREEN"%d tests passed\n"ANSI_RESET, tests_run);
+    printf(ANSI_GREEN"%d tests passed\n"ANSI_RESET, testsRun);
   }
   return result != 0;
 }
