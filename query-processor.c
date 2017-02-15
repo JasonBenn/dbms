@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include "main.h"
 
-// TODO: move to main.h, inside #ifndef block.
-extern Record TABLE_TERMINATOR;
-Record TABLE_TERMINATOR = "END OF TABLE";
-
 // Operator: SeqScan
 struct {
   Table *table;
