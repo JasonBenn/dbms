@@ -4,3 +4,9 @@ void chomp(char *str) {
   if (str[end] == '\n' || str[end] == '\r')
     str[end] = '\0';
 }
+
+void getInput(char *input) {
+  // TODO: reject invalid input.
+  printf("query: ");
+  fgets(input, MAX_INPUT, stdin);
+}
