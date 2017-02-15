@@ -4,7 +4,7 @@
 #include "commands/copy-from-csv.h"
 #include "main.h"
 
-void loadCsv(char *path, Table table) {
+void loadCsv(char *path, Table *table) {
   printf("loading path: %s\n", path);
 
   int numRows = 0;
@@ -18,7 +18,7 @@ void loadCsv(char *path, Table table) {
   while ((read = getline(&line, &len, stream)) != -1) {
     bytesLoaded += (int) read;
     // TODO: this "table" is an array of strings. It should be an array of Records.
-    strncpy(table[(sizeof(Record) * i)], line, MAX_RECORD_SIZE);
+    strncpy(*table[(sizeof(Record) * i)], line, MAX_RECORD_SIZE);
     i++;
     numRows++;
   }

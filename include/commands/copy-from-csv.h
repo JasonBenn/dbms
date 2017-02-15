@@ -1,3 +1,3 @@
 #include "main.h"
 
-void loadCsv(char *path, Table table);
+void loadCsv(char *path, Table *table);

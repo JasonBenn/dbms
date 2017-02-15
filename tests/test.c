@@ -13,25 +13,28 @@ static char *testFoo() {
 
 #include "commands/copy-from-csv.h"
 static char *testCopyFromCsv() {
-  loadFile("stub-data.csv");
+  Table *table;
+  loadCsv("stub-data.csv", table);
   muAssert("error loading CSV", true);
   return 0;
 }
 
 static char *testHashJoin() {
-  // posts schema: id, title
-  Table posts = {
-    {"1", "How do I C"},
-    {"2", "Why does clang hate me"}
-  };
+  // TODO: Table is currently a list of strings, make that a list of Records (themselves lists of strings)
+  // Below are two initializations for stub Tables made of Records.
+  // // posts schema: id, title
+  // Table posts = {
+  //   {"1", "How do I C"},
+  //   {"2", "Why does clang hate me"}
+  // };
 
-  // authors schema: id, postId, name
-  Table authors = {
-    {"1", "1", "Bert"},
-    {"2", "1", "Ernie"},
-    {"3", "2", "Elmo"},
-    {"4", "3", "The Animal"}
-  };
+  // // authors schema: id, postId, name
+  // Table authors = {
+  //   {"1", "1", "Bert"},
+  //   {"2", "1", "Ernie"},
+  //   {"3", "2", "Elmo"},
+  //   {"4", "3", "The Animal"}
+  // };
 
   // TODO
 
