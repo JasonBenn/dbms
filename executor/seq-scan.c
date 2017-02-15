@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "main.h"
+#include "main/main.h"
 #include "executor/seq-scan.h"
 
 

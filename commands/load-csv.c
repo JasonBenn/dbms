@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "commands/load-csv.h"
-#include "main.h"
+#include "main/main.h"
 
 void loadCsv(char *path, Table *table) {
   printf("loading path: %s\n", path);

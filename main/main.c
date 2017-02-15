@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "main.h"
+#include "main/main.h"
 #include "utils/utils.h"
 // TODO: loading from CSV every run -> loading from file in our binary format
 #include "commands/load-csv.h"

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "main.h"
+#include "main/main.h"
 
 // This file is currently it's own little world.
 // Reconciling with the rest of the project will require settling on single Table & Record typedefs.

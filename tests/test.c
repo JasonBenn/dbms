@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "main.h"
+#include "main/main.h"
 #include "executor/seq-scan.h"
 #include "utils/ansi-escape-seqs.h"
 #include "tests/tests.h"

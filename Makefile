@@ -23,7 +23,7 @@ OBJS = build/commands.o build/executor.o build/utils.o
 # --- Entry points
 
 main: $(OBJS)
-	clang $(CFLAGS) $(OBJS) main.c -o build/main.o
+	clang $(CFLAGS) $(OBJS) main/main.c -o build/main.o
 	build/main.o $(TEST_DB)
 
 test:
