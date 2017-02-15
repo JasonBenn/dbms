@@ -1,14 +1,15 @@
-TEST_DB=../bradfield/databases/ciadocs/1.csv
-# TODO: http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
+TEST_DB = ../bradfield/databases/ciadocs/1.csv
 
-default:
-	clear
-	clang ./main.c -o main.o
-	./main.o $(TEST_DB)
-
-develop:
-	wach --only *.[ch], "clear && cc main.c -o main.o && ./main.o $(TEST_DB)"
+main.o test.o: %.c:
+	@clang tests/test.c -o build/test.o
+	@build/test.o
+	@clang main.c -o build/main.o
+	@build/main.o $(TEST_DB)
 
 debug:
-	clang -g -O0 main.c -o main-debug.o
-	lldb -- ./main-debug.o ~/code/bradfield/databases/ciadocs/1.csv
+	@clang -g -O0 main.c -o build/main-debug.o
+	@lldb -- build/main-debug.o $(TEST_DB)
+
+test:
+	@clang ./tests/test.c -o build/test.o
+	@build/test.o
