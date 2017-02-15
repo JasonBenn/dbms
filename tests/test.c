@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "tests/tests.h"
+#include <string.h>
+
 #include "main.h"
+#include "executor/seq-scan.h"
 #include "utils/ansi-escape-seqs.h"
+#include "tests/tests.h"
 
 int testsRun = 0;
 
@@ -15,42 +18,26 @@ static char *testFoo() {
 static char *testCopyFromCsv() {
   Table *table;
   loadCsv("stub-data.csv", table);
-  muAssert("error loading CSV", true);
+  muAssert("error loading CSV", strcmp(*table[0], "document_number,document_creation_date,document_release_date,title,url"));
   return 0;
 }
 
 static char *testSeqScan() {
-  char *columns[] = { "title" };
-  SeqScanState *state = seqScanInit(&table, columns);
-  printf("OK...\n");
-  // printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
-  // printf("cmp: %s\n", *seqScanNext(state));
+  Table *table;
+  SeqScanState *state = seqScanInit(table, 10);
   seqScanNext(state);
-  // A couple problems here. One, the csv is UTF-8, so strcmp is returning garbage.
-  // But that should actually be all right... I'm just waiting for TABLE_TERMINATOR.
-  // I do wish that there was a cleaner way to return an EOF value. Everything
-  // returned from that func has to be the same value, though :/
-  // printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
-  // printf("cmp: %s\n", *seqScanNext(state));
-  seqScanNext(state);
-
-  // Another problem: segfault after the third seqScanNext(state). In lldb:
-  //  error: Execution was interrupted, reason: EXC_BAD_ACCESS (code=1, address=0x10b71c670).
-  //      The process has been returned to the state before expression evaluation.
-  // printf("cmp: %i\n", strcmp(*seqScanNext(state), TABLE_TERMINATOR));
-  // printf("cmp: %s\n", *seqScanNext(state));
-  seqScanNext(state);
-
-  // This will become main.next
   // while (strcmp(*seqScanNext(state), TABLE_TERMINATOR) != 0)
-  // printf("state %i", state->currentId);
+    // printf("state %i", state->currentId);
+  // printf("numRecords: %i\n", state->position);
 
-  printf("numRecords: %i\n", state->currentId);
+  // TODO: test last returned record, maybe?
+  return 0;
 }
 
 static char *testHashJoin() {
-  // TODO: Table is currently a list of strings, make that a list of Records (themselves lists of strings)
+  // TODO: Table is currently a list of strings, we'll need to make that into a list of Records (themselves lists of strings?).
   // Below are two initializations for stub Tables made of Records.
+
   // // posts schema: id, title
   // Table posts = {
   //   {"1", "How do I C"},
@@ -73,6 +60,8 @@ static char *testHashJoin() {
 static char *allTests() {
   muRunTest(testFoo);
   muRunTest(testCopyFromCsv);
+  muRunTest(testSeqScan);
+  muRunTest(testHashJoin);
   return 0;
 }
 

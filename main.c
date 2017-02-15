@@ -28,6 +28,5 @@ int main(int argc, char *argv[]) {
   char *value = strtok(NULL, ":");
   chomp(value);
 
-  // QUERY PROCESSOR
-  // TODO
+  // TODO: query processor
 }

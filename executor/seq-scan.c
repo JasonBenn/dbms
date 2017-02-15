@@ -3,12 +3,6 @@
 #include "main.h"
 
 
-struct {
-  Table *table;
-  int position;
-  int numColumns;
-} typedef SeqScanState;
-
 SeqScanState *seqScanInit(Table *table, int numColumns) {
   SeqScanState *state = (SeqScanState *) malloc(sizeof(SeqScanState));
   state->table = table;
