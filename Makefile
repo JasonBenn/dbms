@@ -3,7 +3,7 @@ TEST_DB = tests/stub-data.csv
 # Adds include dir to the preprocessor search path (for #include'd files)
 CFLAGS = -I include
 
-all: main
+all: run
 
 
 # --- Building object files
@@ -17,14 +17,17 @@ build/executor.o: executor/seq-scan.c
 build/utils.o: utils/utils.c
 	clang $(CFLAGS) utils/utils.c -c -o build/utils.o
 
+
 OBJS = build/commands.o build/executor.o build/utils.o
 
+compile:
+	clang $(CFLAGS) $(OBJS) main/main.c -o build/main.o
 
-# --- Entry points
-
-main: $(OBJS)
+run: main/main.c $(OBJS)
 	clang $(CFLAGS) $(OBJS) main/main.c -o build/main.o
 	build/main.o $(TEST_DB)
+
+# --- Entry points
 
 test:
 	clang $(CFLAGS) $(OBJS) tests/test.c -o build/test.o
