@@ -30,8 +30,8 @@ test:
 	clang $(CFLAGS) $(OBJS) tests/test.c -o build/test.o
 	build/test.o
 
-debug_main:
-	clang $(CFLAGS) $(OBJS) -g -O0 main.c -o build/main-debug.o
+debug:
+	clang $(CFLAGS) $(OBJS) -g -O0 main/main.c -o build/main-debug.o
 	lldb -- build/main-debug.o $(TEST_DB)
 
 debug_test:
