@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "main/main.h"
 #include "executor/seq-scan.h"
@@ -11,12 +12,16 @@
 int testsRun = 0;
 
 #include "commands/load-csv.h"
-/* static char *testCopyFromCsv() { */
-  /* Table *table; */
-  /* loadCsv("stub-data.csv", table); */
-  /* muAssert("error loading CSV", strcmp(*table[0], "document_number,document_creation_date,document_release_date,title,url")); */
-  /* return 0; */
-/* } */
+
+static char *testCopyFromCsv() {
+  Table *table = (Table *) calloc(MAX_RECORDS, MAX_RECORD_SIZE);
+  loadCsv("tests/stub-data.csv", table);
+  muAssert("CSV line 0", strcmp((*table)[0], "CIA-RDP73-00402R000100290030-0,2016-12-19,2006-12-18,SUITLAND RECORDS CENTER - COURTESY STORAGE AGREEMENT,https://www.cia.gov/library/readingroom/document/cia-rdp73-00402r000100290030-0") == 0);
+  muAssert("CSV line 1", strcmp((*table)[1], "CIA-RDP70S00385R000100280047-0,2016-12-12,2001-03-14,DEAR BOB:,https://www.cia.gov/library/readingroom/document/cia-rdp70s00385r000100280047-0") == 0);
+  muAssert("CSV line 2", strcmp((*table)[2], "CIA-RDP80B01676R001700050006-5,2016-12-16,2004-11-23,LETTER TO MR. JAMES W. CLARK FROM L. K. WHITE,https://www.cia.gov/library/readingroom/document/cia-rdp80b01676r001700050006-5") == 0);
+  free(table);
+  return 0;
+}
 
 /* static char *testSeqScan() { */
   /* Table *table; */
@@ -72,8 +77,8 @@ static char *testHashJoin() {
 }
 
 static char *allTests() {
+  muRunTest(testCopyFromCsv);
   muRunTest(testStrtokWithBlank);
-  /* muRunTest(testCopyFromCsv); */
   /* muRunTest(testSeqScan); */
   /* muRunTest(testHashJoin); */
   return 0;

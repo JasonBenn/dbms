@@ -1,27 +1,32 @@
 // Analogous to postgres/src/backend/commands/copy.c, which implements the COPY command.
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "commands/load-csv.h"
 #include "main/main.h"
+#include "utils/utils.h"
 
 void loadCsv(char *path, Table *table) {
   printf("loading path: %s\n", path);
-
   int numRows = 0;
-  FILE *stream = fopen(path, "rb");
+  int bytesLoaded = 0;
+
+  FILE *stream;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
 
-  int bytesLoaded = 0;
+  stream = fopen(path, "rb");
+  if (stream == NULL)
+    ; // Handle failure
+
+  read = getline(&line, &len, stream);
+
   int i = 0;
   while ((read = getline(&line, &len, stream)) != -1) {
-    printf("read %lu line %s\n", read, line);
     bytesLoaded += (int) read;
-    // TODO: this "table" is an array of strings. It should be an array of Records.
-    printf("index %i\n\n", sizeof(Record) * i);
-    strncpy(*table[(sizeof(Record) * i)], line, MAX_RECORD_SIZE);
-    strncpy(*table[i], line, MAX_RECORD_SIZE);
+    chomp(line);
+    strncpy((*table)[i], line, MAX_RECORD_SIZE);
     i++;
     numRows++;
   }
