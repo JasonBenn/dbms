@@ -10,11 +10,6 @@
 
 int testsRun = 0;
 
-static char *testFoo() {
-  muAssert("error, foo != 7", 7 == 7);
-  return 0;
-}
-
 #include "commands/load-csv.h"
 /* static char *testCopyFromCsv() { */
   /* Table *table; */
@@ -77,7 +72,6 @@ static char *testHashJoin() {
 }
 
 static char *allTests() {
-  muRunTest(testFoo);
   muRunTest(testStrtokWithBlank);
   /* muRunTest(testCopyFromCsv); */
   /* muRunTest(testSeqScan); */
