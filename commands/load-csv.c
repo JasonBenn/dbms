@@ -16,9 +16,12 @@ void loadCsv(char *path, Table *table) {
   int bytesLoaded = 0;
   int i = 0;
   while ((read = getline(&line, &len, stream)) != -1) {
+    printf("read %lu line %s\n", read, line);
     bytesLoaded += (int) read;
     // TODO: this "table" is an array of strings. It should be an array of Records.
+    printf("index %i\n\n", sizeof(Record) * i);
     strncpy(*table[(sizeof(Record) * i)], line, MAX_RECORD_SIZE);
+    strncpy(*table[i], line, MAX_RECORD_SIZE);
     i++;
     numRows++;
   }
