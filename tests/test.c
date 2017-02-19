@@ -5,7 +5,7 @@
 #include "main/main.h"
 #include "executor/seq-scan.h"
 #include "utils/ansi-escape-seqs.h"
-#include "utils/strtok-with-blank.h"
+#include "utils/utils.h"
 #include "tests/tests.h"
 
 int testsRun = 0;
@@ -40,15 +40,15 @@ static char *testStrtokWithBlank(){
   char *next;
   char comma = ',';
 
-  next = strtok_with_blank(a, &comma);
-  printf("%s", next);
-  muAssert("First item should be hi was", next == "hi");
-  next = strtok_with_blank(NULL, &comma);
-  muAssert("Second item should be world", next == "world");
-  next = strtok_with_blank(NULL, &comma);
-  muAssert("Third item should be ''", next == "");
-  next = strtok_with_blank(NULL, &comma);
-  muAssert("Fourth item should be bye", next == "bye");
+  next = strtokWithBlank(a, &comma);
+  // strcmp returns lexical distance, 0 means they're equal.
+  muAssert("First item should be hi was\n", strcmp(next, "hi") == 0);
+  next = strtokWithBlank(NULL, &comma);
+  muAssert("Second item should be world", strcmp(next, "world") == 0);
+  next = strtokWithBlank(NULL, &comma);
+  muAssert("Third item should be ''", strcmp(next, "") == 0);
+  next = strtokWithBlank(NULL, &comma);
+  muAssert("Fourth item should be bye", strcmp(next, "bye") == 0);
 
   return 0;
 }
