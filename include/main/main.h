@@ -12,4 +12,4 @@ typedef struct {
 } Record;
 #endif
 
-typedef Record *(Table[25]);
+typedef Record *(Table[MAX_RECORDS]);

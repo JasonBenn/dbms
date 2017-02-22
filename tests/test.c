@@ -14,7 +14,7 @@ int testsRun = 0;
 #include "commands/load-csv.h"
 
 static char *testCopyFromCsv() {
-  Table *table = (Table *) calloc(MAX_RECORDS, MAX_RECORD_SIZE);
+  Table *table = (Table *) malloc(sizeof(Table));
   loadCsv("tests/stub-data.csv", table);
   muAssert("CSV line 0", strcmp((*table)[0]->documentNumber, "CIA-RDP73-00402R000100290030-0") == 0);
   muAssert("CSV line 1", strcmp((*table)[1]->documentCreationDate, "2016-12-12") == 0);
