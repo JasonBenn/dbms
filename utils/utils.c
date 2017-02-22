@@ -16,28 +16,34 @@ void getInput(char *input) {
   fgets(input, MAX_INPUT, stdin);
 }
 
-char *current_pointer;
-char *starting_point;
+char *currentPointer;
+char *startingPoint;
+
 char *strtokWithBlank(char *input, char *sep) {
-  char *new_string;
-  if (input != NULL) { current_pointer = input; };
+  char *newString;
+  if (input != NULL) {
+    currentPointer = input;
+  };
 
-  starting_point = current_pointer;
+  startingPoint = currentPointer;
 
-  //Blank row, return empty string. This is where the method differentiates from strtok
-  if (*starting_point == *sep) {
-    current_pointer++;
-    return "" ;
+  // Blank row, return empty string. This is where the method differentiates from strtok
+  if (*startingPoint == *sep) {
+    currentPointer++;
+    return "";
   }
-  for (;*current_pointer != *sep && *current_pointer != '\n' && *current_pointer != '\0';*current_pointer++){}
-  size_t new_string_size = current_pointer - starting_point;
-  if (new_string_size == 0){
+
+  for (; *currentPointer != *sep && *currentPointer != '\n' && *currentPointer != '\0'; *currentPointer++) {}
+  size_t newStringSize = currentPointer - startingPoint;
+
+  if (newStringSize == 0) {
     return NULL;
   }
-  new_string = malloc(new_string_size);
-  stpncpy(new_string, starting_point, new_string_size);
 
-  //advance past our delimeter so the next call starts in the correct place
-  *current_pointer++;
-  return  new_string;
+  newString = malloc(newStringSize);
+  stpncpy(newString, startingPoint, newStringSize);
+
+  // advance past our delimiter so the next call starts in the correct place
+  *currentPointer++;
+  return  newString;
 }
