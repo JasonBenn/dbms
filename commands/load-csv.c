@@ -6,6 +6,21 @@
 #include "main/main.h"
 #include "utils/utils.h"
 
+Record *parseRecord(char *line) {
+  Record *record = (Record *) malloc(sizeof(Record));
+  char *next;
+  char comma = ',';
+
+  next = strtokWithBlank(line, &comma);
+  record->documentNumber = next;
+  record->documentCreationDate = strtokWithBlank(NULL, &comma);
+  record->documentReleaseDate = strtokWithBlank(NULL, &comma);
+  record->title = strtokWithBlank(NULL, &comma);
+  record->url = strtokWithBlank(NULL, &comma);
+
+  return record;
+}
+
 void loadCsv(char *path, Table *table) {
   printf("loading path: %s\n", path);
   int numRows = 0;
@@ -20,14 +35,14 @@ void loadCsv(char *path, Table *table) {
   if (stream == NULL)
     ; // Handle failure
 
-  read = getline(&line, &len, stream);
+  getline(&line, &len, stream);  // Read headers
 
   int i = 0;
   while ((read = getline(&line, &len, stream)) != -1) {
     bytesLoaded += (int) read;
     chomp(line);
-    strncpy((*table)[i], line, MAX_RECORD_SIZE);
-    i++;
+    Record *record = parseRecord(line);
+    (*table)[i++] = record;
     numRows++;
   }
 
