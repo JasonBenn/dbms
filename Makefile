@@ -3,7 +3,7 @@ TEST_DB = tests/stub-data.csv
 # Adds include dir to the preprocessor search path (for #include'd files)
 CFLAGS = -I include
 
-all: run
+# all: run
 
 
 # --- Building object files
